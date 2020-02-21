@@ -2,3 +2,4 @@ React
 Redux
 REST API
 Axios
+json-server
