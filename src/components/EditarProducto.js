@@ -1,6 +1,41 @@
-import React from 'react';
+import React,{useState,useEffect} from 'react';
+import {useDispatch,useSelector} from 'react-redux'
+import {editarProductoAction} from '../actions/productoActions'
 
-const EditarProdcuto = () => {
+const EditarProducto = () => {
+    const dispatch = useDispatch();
+
+    //nuevo state de producto
+    const [ producto , guardarproducto ] = useState({
+        nombre:'',
+        precio:''
+      })
+
+      const submitEditarProducto = e => {
+        e.preventDefault();
+        dispatch(editarProductoAction(producto)) 
+    }
+
+    //Producto a editar
+  const productoeditar = useSelector(state=>state.productos.productoeditar);
+  //llenar el producto automaticamente
+  useEffect(() => 
+  {
+   guardarproducto(productoeditar)
+  }, [productoeditar])
+
+    //Leer los datos del formulario
+  const onChangeFormulario=e=>{
+    guardarproducto({
+      ...producto,
+      [e.target.name]:e.target.value
+    })
+}
+
+    
+    const {nombre,precio} = producto;
+    
+
     return (  
         <div className="row justify-content-center">
             <div className="col-md-8">
@@ -8,7 +43,9 @@ const EditarProdcuto = () => {
                     <div className="card-body">
                         <h2 className="text-center mb-4 font-weight-bold">Editar Producto</h2>
 
-                        <form>
+                        <form
+                            onSubmit={submitEditarProducto}
+                        >
                             <div className="form-group ">
                                 <label>Nombre Producto</label>
                                 <input 
@@ -16,6 +53,8 @@ const EditarProdcuto = () => {
                                     className="form-control"
                                     placeholder="Nombre Producto"
                                     name="nombre"
+                                    value={nombre}
+                                    onChange={onChangeFormulario}
                                 />
                             </div>
 
@@ -26,6 +65,8 @@ const EditarProdcuto = () => {
                                     className="form-control"
                                     placeholder="Precio Producto"
                                     name="precio"
+                                    value={precio}
+                                    onChange={onChangeFormulario}
                                 />
                             </div>
 
@@ -43,4 +84,4 @@ const EditarProdcuto = () => {
     );
 }
  
-export default EditarProdcuto;
+export default EditarProducto;
