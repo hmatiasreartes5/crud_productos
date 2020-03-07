@@ -11,6 +11,7 @@ const Productos = () => {
         //consultar a la API
         const cargarProductos = () => dispatch(obtenerProductosAction());
         cargarProductos()
+        //eslint-disable-next-line
     },[]);
 
     const productos = useSelector(state => state.productos.productos);
